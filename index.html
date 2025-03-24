@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quarto Report</title>
-    <script src="script.js" defer></script>
     <style>
         iframe {
             width: 100%;
@@ -19,6 +18,46 @@
     <button onclick="downloadHTML()">Download as HTML</button>
 
     <iframe src="Pediatric_macular_hole.html"></iframe>
+
+        <script>
+        // Function to download the HTML content of the iframe
+        function downloadHTML() {
+            const iframe = document.querySelector("iframe");
+
+            try {
+                // Get full HTML content from the iframe
+                const iframeDocument = iframe.contentWindow.document.documentElement.outerHTML;
+                
+                // Create a Blob object to represent the HTML content
+                const blob = new Blob([iframeDocument], { type: "text/html" });
+                
+                // Create a download link
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "report.html"; // Set the download filename
+                
+                // Append the link to the document and trigger a click to start the download
+                document.body.appendChild(link);
+                link.click();
+                
+                // Remove the link after the download starts
+                document.body.removeChild(link);
+            } catch (error) {
+                // If any error occurs, log it and show an alert
+                console.error("Error downloading HTML:", error);
+                alert("Download failed. Try a different browser.");
+            }
+        }
+
+        // Adding some content to the iframe for demonstration
+        window.onload = function() {
+            const iframe = document.getElementById("myIframe");
+            const iframeDocument = iframe.contentWindow.document;
+            iframeDocument.open();
+            iframeDocument.write('<h1>Hello from the iframe!</h1><p>This is some sample content.</p>');
+            iframeDocument.close();
+        }
+    </script>
 
 </body>
 </html>
